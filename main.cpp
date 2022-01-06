@@ -36,51 +36,51 @@ Sub Object 1: Steering Wheel
     Name 4 things you'll find on the:    Steering Wheel
         1) paddle shifters
         2) 'cruise control' controls
-        3) 
-        4) 
+        3) hand grip
+        4) horn button
     Name 2 things you can do with the:   Steering Wheel
         1) adjust cruise control settings.
-        2)
+        2) rotate the wheel
         
 Sub Object 2: Instrument Cluster
     Name 4 things you'll find on the:   Instrument Cluster
-        1)
-        2)
-        3)
-        4)
+        1) Spedomoter
+        2) Transimssion gear indicator
+        3) Tachometer
+        4) Engine status lights
     Name 3 things you can do with the:   Instrument Cluster
-        1)
-        2)
-        3)
+        1) Check the car's speed
+        2) Verify the current transmission mode
+        3) Check the turn signal status
     
 Sub Object 3: Environment Controls
     Name 3 things you'll find on the:    Environment Controls
-        1)
-        2)
-        3)
+        1) Fan speed knob
+        2) Air conditioning temperature selector
+        3) Air conditioining vent selector
     Name 3 things you can do with the:   Environment Controls
-        1)
-        2)
-        3)
+        1) Adjust the air conditining temperature
+        2) Adjust the fan speed
+        3) Select the air conditioning vent
 
 Sub Object 4: Infotainment System
     Name 3 things you'll find on the:    Infotainment System
-        1)
-        2)
-        3)
+        1) Screen
+        2) Radio tuner
+        3) Phone dial pad
     Name 3 things you can do with the:   Infotainment System
-        1)
-        2)
-        3)
+        1) Tune radio station
+        2) Dial Phone
+        3) View current radio settings
 
 Sub Object 5: Seat 
     Name 3 things you'll find on the:    Seat
-        1)
-        2)
-        3)
+        1) Backrest adjuster
+        2) Headrest
+        3) Lumbar support
     Name 2 things you can do with the:   Seat
-        1)
-        2)
+        1) Adjust headrest
+        2) Adjust seat angle
 */
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
