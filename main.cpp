@@ -68,35 +68,10 @@ Part1 will be broken up into 5 separate steps
 Thing 10) Electric Guitar
 5 properties:
     1) Pickups
-        Magnet Material (std::string)
-        Number of Coils (int)
-        Number of Pickups (int)
-        distance from strings in cm (float)
-        brand (std::string)
     2) Neck
-        Fretboard Material (std::string)
-        scale length in cm (double)
-        number of frets(int)
-        fret width in mm (float)
-        number of fretboard inlays (int)
     3) Body
-        wood type(std::string)
-        color (std_string)
-        cutout radius in cm (float)
-        number of cutouts (int)
-        thickness in cm (float)
     4) Tuners
-        tuner metal (std::string)
-        adjustment key orientation (std::string)
-        number of tuners(int)
-        tuner height in mm (double)
-        tuner gear ratio (float)
     5) Bridge
-        type of bridge(std::string)
-        number of string poles (int)
-        length adjustment screw setting in mm (double)
-        type of tremolo (std::string)
-        floating bridge tightness setting (std::string)
 3 things it can do:
     1) play a chord
     2) generate electrical output
@@ -109,11 +84,11 @@ Thing 10) Electric Guitar
 /*
 Thing 1) Computer Monitor
 5 properties:
-    1) screen brightness
-    2) supported diplay aspect ratios
-    3) number of inputs
-    4) type of inputs
-    5) screen color settings
+    1) screen brightness (int)
+    2) diplay pixel width (int)
+    3) number of inputs (int)
+    4) brand (std:: string)
+    5) screen red color gain (float)
 3 things it can do:
     1) display input video
     2) adjust video brightness
@@ -123,11 +98,11 @@ Thing 1) Computer Monitor
 /*
 Thing 2) Standing Desk
 5 properties:
-    1) unladen weight
-    2) current surface height
-    3) max supported weight
-    4) width
-    5) composition material
+    1) unladen weight in pounds (float)
+    2) current surface height in inches (float)
+    3) max supported weight in pounds (double)
+    4) width in inches (float)
+    5) composition material (std::string)
 3 things it can do:
     1) support object
     2) adjust height
@@ -137,11 +112,11 @@ Thing 2) Standing Desk
 /*
 Thing 3) Guitar amplifier
 5 properties:
-    1) Preamplifier gain
-    2) number of channels
-    3) max output power
-    4) treble gain
-    5) reverb amount
+    1) Preamplifier gain (double)
+    2) number of channels (int)
+    3) max output power in watts (float)
+    4) treble gain (double)
+    5) reverb amount (double)
 3 things it can do:
     1) amplify guitar input
     2) adjust reverb amount
@@ -151,11 +126,11 @@ Thing 3) Guitar amplifier
 /*
 Thing 4) Power strip
 5 properties:
-    1) Number of power outlets
-    2) max surge  protection rating
-    3) supported connector formats
-    4) wire gauge
-    5) number of populated outlets
+    1) Number of power outlets (int)
+    2) max surge  protection rating in watts (float)
+    3) connector format (std::string) 
+    4) wire gauge (int)
+    5) number of populated outlets (int)
 3 things it can do:
     1) supply power
     2) throw protection fuse
