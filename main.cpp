@@ -64,22 +64,6 @@ Part1 will be broken up into 5 separate steps
 3) Move the Thing 10 pseudo-code to after your Thing1-4 in the project.
 */
 
-/*
-Thing 10) Electric Guitar
-5 properties:
-    1) Pickups
-    2) Neck
-    3) Body
-    4) Tuners
-    5) Bridge
-3 things it can do:
-    1) play a chord
-    2) generate electrical output
-    3) receive new strings
- */
-
-
-
 
 /*
 Thing 1) Computer Monitor
@@ -138,6 +122,20 @@ Thing 4) Power strip
  */
 
 
+
+/*
+Thing 10) Electric Guitar
+5 properties:
+    1) Pickups
+    2) Neck
+    3) Body
+    4) Tuners
+    5) Bridge
+3 things it can do:
+    1) play a chord
+    2) generate electrical output
+    3) receive new strings
+ */
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
