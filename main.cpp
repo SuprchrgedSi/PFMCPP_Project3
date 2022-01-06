@@ -65,17 +65,42 @@ Part1 will be broken up into 5 separate steps
 */
 
 /*
-Thing 10)
+Thing 10) Electric Guitar
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) Pickups
+        Magnet Material (std::string)
+        Number of Coils (int)
+        Number of Pickups (int)
+        distance from strings in cm (float)
+        brand (std::string)
+    2) Neck
+        Fretboard Material (std::string)
+        scale length in cm (double)
+        number of frets(int)
+        fret width in mm (float)
+        number of fretboard inlays (int)
+    3) Body
+        wood type(std::string)
+        color (std_string)
+        cutout radius in cm (float)
+        number of cutouts (int)
+        thickness in cm (float)
+    4) Tuners
+        tuner metal (std::string)
+        adjustment key orientation (std::string)
+        number of tuners(int)
+        tuner height in mm (double)
+        tuner gear ratio (float)
+    5) Bridge
+        type of bridge(std::string)
+        number of string poles (int)
+        length adjustment screw setting in mm (double)
+        type of tremolo (std::string)
+        floating bridge tightness setting (std::string)
 3 things it can do:
-    1)
-    2)
-    3)
+    1) play a chord
+    2) generate electrical output
+    3) receive new strings
  */
 
 
