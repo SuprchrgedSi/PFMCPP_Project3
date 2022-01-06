@@ -81,80 +81,6 @@ Part1 will be broken up into 5 separate steps
 */
 
 /*
-Thing 5)
-5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
-3 things it can do:
-    1)
-    2)
-    3)
- */
-
-/*
-Thing 6)
-5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
-3 things it can do:
-    1)
-    2)
-    3)
- */
-
-/*
-Thing 7)
-5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
-3 things it can do:
-    1)
-    2)
-    3)
- */
-
-/*
-Thing 8)
-5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
-3 things it can do:
-    1)
-    2)
-    3)
- */
-
-/*
-Thing 9)
-5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
-3 things it can do:
-    1)
-    2)
-    3)
- */
-
-
-
-
-
-/*
 Thing 1) Computer Monitor
 5 properties:
     1) screen brightness (int)
@@ -210,7 +136,75 @@ Thing 4) Power strip
     3) disable power
  */
 
+/*
+Thing 5) Pickups
+5 properties:
+    1) Magnet Material (std::string)
+    2) Number of Coils (int)
+    3) Number of Pickups (int)
+    4) distance from strings in cm (float)
+    5) brand (std::string)
+3 things it can do:
+    1) adjust height
+    2) adjust pole pieces
+    3) convert vibration to voltage
+ */
 
+/*
+Thing 6) Neck
+5 properties:
+    1) Fretboard Material (std::string)
+    2) scale length in cm (double)
+    3) number of frets(int)
+    4) fret width in mm (float)
+    5) number of fretboard inlays (int)
+3 things it can do:
+    1) adjust truss rod
+    2) fret note
+    3) clean fretboard
+ */
+
+/*
+Thing 7)  Body
+5 properties:
+    1) wood type(std::string)
+    2) color (std::string)
+    3) cutout radius in cm (float)
+    4) number of cutouts (int)
+    5) thickness in cm (float)
+3 things it can do:
+    1) select pickup output
+    2) adjust pickup volume
+    3) adjust pickup tone
+ */
+
+/*
+Thing 8) Tuners
+5 properties:
+    1) tuner metal (std::string)
+    2) adjustment key orientation (std::string)
+    3) number of tuners(int)
+    4) tuner height in mm (double)
+    5) tuner gear ratio (float)
+3 things it can do:
+    1) rotate tuner key
+    2) adjust string tension
+    3) tighten set nut
+ */ 
+
+/*
+Thing 9) Bridge
+5 properties:
+    1) type of bridge(std::string)
+    2) number of string poles (int)
+    3) length adjustment screw setting in mm (double)
+    4) type of tremolo (std::string)
+    5) floating bridge tightness setting (std::string)
+3 things it can do:
+    1) adjust string length
+    2) move whammy bar
+    3) adjust bridge height
+ */
 
 /*
 Thing 10) Electric Guitar
