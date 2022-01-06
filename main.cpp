@@ -57,59 +57,59 @@ Thing: Car Wash
  */
 
 /*
-Thing 1)
+Thing 1) Computer Monitor
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) screen brightness
+    2) supported diplay aspect ratios
+    3) number of inputs
+    4) type of inputs
+    5) screen color settings
 3 things it can do:
-    1)
-    2)
-    3)
+    1) display input video
+    2) adjust video brightness
+    3) change aspect ratio
  */
 
 /*
-Thing 2)
+Thing 2) Standing Desk
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) unladen weight
+    2) current surface height
+    3) max supported weight
+    4) width
+    5) composition material
 3 things it can do:
-    1)
-    2)
-    3)
+    1) support object
+    2) adjust height
+    3) roll to new location
  */
 
 /*
-Thing 3)
+Thing 3) Guitar amplifier
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) Preamplifier gain
+    2) number of channels
+    3) max output power
+    4) treble gain
+    5) reverb amount
 3 things it can do:
-    1)
-    2)
-    3)
+    1) amplify guitar input
+    2) adjust reverb amount
+    3) switch channel
  */
 
 /*
-Thing 4)
+Thing 4) Power strip
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) Number of power outlets
+    2) max surge  protection rating
+    3) supported connector formats
+    4) wire gauge
+    5) number of populated outlets
 3 things it can do:
-    1)
-    2)
-    3)
+    1) supply power
+    2) throw protection fuse
+    3) disable power
  */
 
 
