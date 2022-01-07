@@ -236,7 +236,8 @@ Thing 2) Standing Desk
     3) roll to new location
  */
 
-struct StandingDesk{
+struct StandingDesk
+{
     // unladen weight in pounds
     float unladenWeight = 10.f;
     // current surface height in inches
