@@ -242,13 +242,9 @@ struct GuitarAmp
         int numOutputs = 1;
         std::string powerState = "standby";
 
-        void changeGain(double gainAdjustment) {gain *= gainAdjustment;}
-        void enableAmpStandby() { powerState = "standby";}
-        int selectImpedance( int impedance = 8) 
-        { 
-            outputImpedance = impedance;
-            return impedance;
-        }
+        void changeGain(double gainAdjustment);
+        void enableAmpStandby();
+        int selectImpedance( int impedance = 8) ;
     };
 
 
@@ -256,6 +252,14 @@ struct GuitarAmp
     double adjustReverbAmount(double reverbGain = 1.0);
     int switchChannel(int currentChannel, int newChannel = 0);
 };
+
+void GuitarAmp::PowerAmp::changeGain(double gainAdjustment) {gain *= gainAdjustment;}
+void GuitarAmp::PowerAmp::enableAmpStandby() { powerState = "standby";}
+int GuitarAmp::PowerAmp::selectImpedance( int impedance) 
+{ 
+    outputImpedance = impedance;
+    return impedance;
+}
 
 double GuitarAmp::amplifyGuitar(double inputVoltage, double ampGain) 
 { 
@@ -290,13 +294,9 @@ struct PowerStrip
         std::string connectorFormat = "US";
         bool plugInstalled = false;
 
-        void tripGFCI()
-        {
-            currentPower = 0.0;
-            GFCIState = "tripped";
-        }
-        float getCurrentPower() { return currentPower;}
-        bool isPlugInstalled() { return plugInstalled;}
+        void tripGFCI();
+        float getCurrentPower();
+        bool isPlugInstalled();
     };
 
     Outlet outlet1;
@@ -307,6 +307,14 @@ struct PowerStrip
     float getOutletPower();
     void disablePower();
 };
+
+void PowerStrip::Outlet::tripGFCI()
+        {
+            currentPower = 0.0;
+            GFCIState = "tripped";
+        }
+float PowerStrip::Outlet::getCurrentPower() { return currentPower;}
+bool PowerStrip::Outlet::isPlugInstalled() { return plugInstalled;}
 
 int PowerStrip::insertPlug(Outlet outlet) 
 {
