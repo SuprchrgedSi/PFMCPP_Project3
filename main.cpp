@@ -107,7 +107,43 @@ struct CarWash
     you should be able to deduce the return type of those functions based on their usage in Person::run()
     You'll need to insert the Person struct from the video in the space below.
  */
+struct Person
+{
+    int age;
+    int height;
+    float hairLength;
+    float GPA;
+    unsigned int SATScore;
+    int distanceTraveled;
+    
+    struct Foot
+    {
+        int stepLength = 1;
+        int numSteps = 0;
 
+        int stepSize() { return stepLength; }
+        int stepForward()
+        { 
+            numSteps ++;
+            return stepSize();
+        }
+        
+    };
+
+    Foot leftFoot;
+    Foot rightFoot;
+
+
+    void run(bool startWithLeftFoot)
+    {
+        if (startWithLeftFoot) 
+        {
+            distanceTraveled += leftFoot.stepForward() + rightFoot.stepForward();
+        }
+
+        distanceTraveled += rightFoot.stepForward() + leftFoot.stepForward();
+    }
+};
 
 
 
@@ -127,392 +163,339 @@ struct CarWash
 
 
 
-/*
-Thing 1) Computer Monitor
-5 properties:
-    1) screen brightness (int)
-    2) diplay pixel width (int)
-    3) number of inputs (int)
-    4) brand (std:: string)
-    5) screen red color gain (float)
-3 things it can do:
-    1) display input video
-    2) adjust video brightness
-    3) change aspect ratio
- */
-
 struct ComputerMonitor
 {
-    // screen brightness
     int screenBrightness = 50;
-    // diplay pixel width
     int pixelWidth = 1920;
-    // number of inputs
+    int pixelHeight = 1080;
     int numInputs = 5;
-    // brand
     std::string brand = "Samsung";
-    // screen red color gain
     float redGain = 0.72f;
+    
 
-    //  display input video
     void displayInput(int selectedInput = 1);
-    // adjust video brightness
     void adjustBrightness(int brightnessAdjustment = 0);
-    // change aspect ratio
-    int changeAspectRatio(int xDim, int yDim);
+    float changeAspectRatio(int xDim, int yDim);
 };
 
-/*
-Thing 2) Standing Desk
-5 properties:
-    1) unladen weight in pounds (float)
-    2) current surface height in inches (float)
-    3) max supported weight in pounds (double)
-    4) width in inches (float)
-    5) composition material (std::string)
-3 things it can do:
-    1) Slide keyboard drawer
-    2) adjust height
-    3) roll to new location
- */
+void ComputerMonitor::displayInput(int selectedInput)
+{
+    std::cout << "Display " << selectedInput << " is on screen" << std::endl;
+}
+
+void ComputerMonitor::adjustBrightness(int brightnessAdjustment)
+{
+    screenBrightness += brightnessAdjustment;
+}
+
+float ComputerMonitor::changeAspectRatio(int xDim, int yDim)
+{
+    pixelWidth = xDim;
+    pixelHeight = yDim;
+    return xDim/yDim;
+}
 
 struct StandingDesk
 {
-    // unladen weight in pounds
     float unladenWeight = 10.f;
-    // current surface height in inches
     float deskHeight = 36.f;
-    // max supported weight in pounds
     double maxSupportedWeight = 276.3;
-    // width in inches
     double width = 48.0;
-    // composition material
     std::string compositionMaterial = "glass";
+    std::string drawerLocation = "in";
 
-    // Slide keyboard drawer
     std::string slideDrawer();
-    // Adjust height
-    float changeHeight(float heightChange = 1.f);
-    // roll to new location
+    void changeHeight(float heightChange = 1.f);
     float rollDesk(float xDistance = 0.5f, float yDistance = 0.5f);
-
 };
-/*
-Thing 3) Guitar amplifier
-5 properties:
-    1) Preamplifier gain (double)
-    2) number of channels (int)
-    3) max output power in watts (float)
-    4) treble gain (double)
-    5) reverb amount (double)
-3 things it can do:
-    1) amplify guitar input
-    2) adjust reverb amount
-    3) switch channel
- */
+
+std::string StandingDesk::slideDrawer()
+{ 
+    if (drawerLocation == "in") return "out";
+
+    return "in";
+}
+
+void StandingDesk::changeHeight(float heightChange)
+{
+    deskHeight += heightChange;
+}
+
+float StandingDesk::rollDesk(float xDistance , float yDistance)
+{
+    return xDistance + yDistance;
+}
+
 struct GuitarAmp
 {
-    //  Preamplifier gain
     double preampGain = 0.25;
-    //  number of channels
     int numChannels = 2;
-    // max output power in watts
     float maxOutPower = 100.f;
-    // treble gain
     double trebleGain = 0.5;
-    // reverb amount
     double reverbLevel = 0.25;
 
     struct PowerAmp
     {
-        // Amp gain
         double gain = 0.0;
-        // Power amp config
         std::string ampTopology = "Class AB";
-        // output impedance in ohms
         int outputImpedance = 8;
-        // number of outputs
         int numOutputs = 1;
-        // power state
         std::string powerState = "standby";
 
-
-        // Change gain
-        void changeGain(double gainAdjustment = 1.0);
-        // Put amp into standby
+        void changeGain(double gainAdjustment);
         void enableAmpStandby();
-        // select new output impedance
-        int selectImpedance( int impedance = 8);
+        int selectImpedance(int impedance = 8) ;
     };
 
-    // amplify guitar input
+
     double amplifyGuitar(double inputVoltage = 0.0, double ampGain = 0.0);
-    // adjust reverb amount
-    double adjustReverbAmount(double reverbLevel = 0.25, double reverbGain = 1.0);
-    // switch channel
+    double adjustReverbAmount(double reverbGain = 1.0);
     int switchChannel(int currentChannel, int newChannel = 0);
 };
-/*
-Thing 4) Power strip
-5 properties:
-    1) Number of power outlets (int)
-    2) max surge  protection rating in watts (float)
-    3) connector format (std::string) 
-    4) wire gauge (int)
-    5) number of populated outlets (int)
-3 things it can do:
-    1) Install plug
-    2) get current outlet power 
-    3) disable power
- */
+
+void GuitarAmp::PowerAmp::changeGain(double gainAdjustment) { gain *= gainAdjustment; }
+
+void GuitarAmp::PowerAmp::enableAmpStandby() { powerState = "standby"; }
+
+int GuitarAmp::PowerAmp::selectImpedance(int impedance) 
+{ 
+    outputImpedance = impedance;
+    return impedance;
+}
+
+double GuitarAmp::amplifyGuitar(double inputVoltage, double ampGain) 
+{ 
+    return inputVoltage * ampGain;
+}
+
+double GuitarAmp::adjustReverbAmount(double reverbGain)
+{
+    reverbLevel *= reverbGain;
+    return reverbLevel;
+}
+
+int GuitarAmp::switchChannel(int currentChannel, int newChannel)
+{
+    if (currentChannel == newChannel) return currentChannel;
+
+    return newChannel;
+}
 
 struct PowerStrip
 {
-    // Number of power outlets 
-    int numOutlets = 5;
-    // max surge  protection rating in watts
+    int numOutlets = 3;
     float maxSurgeProtection = 2400.0f;
-    //  
-    
-    // wire gauge 
     int wireGauge = 18;
-    // number of populated outlets 
     int numPopulatedOutlets = 2;
 
     struct Outlet
     {
-        // which outlet number
         int outletNum = 1;
-        // current power
-        double currentPower = 0.0;
-        // GFCI status
-        std::string gfciState = "normal";
-        // Connector format
+        float currentPower = 0.0;
+        std::string GFCIState = "normal";
         std::string connectorFormat = "US";
-        // plug installed
         bool plugInstalled = false;
 
-        // Trip GFCI breaker
         void tripGFCI();
-        // retrieve outlet current power
-        double getCurrentPower();
-        // return plugged in status (useful for parent functions)
+        float getCurrentPower();
         bool isPlugInstalled();
-
     };
 
-    // Insert plug
-    int insertPlug(Outlet outlet);
-    // get current outlet power
-    float getOutletPower(int plugNum);
-    // disable power
-    void disablePower();
-      
+    Outlet outlet1;
+    Outlet outlet2;
+    Outlet outlet3;
 
+    int insertPlug(Outlet outlet);
+    float getOutletPower();
+    void disablePower();
 };
-/*
-Thing 5) Pickups
-5 properties:
-    1) Magnet Material (std::string)
-    2) Number of Coils (int)
-    3) type of pickup
-    4) distance from strings in cm (float)
-    5) brand (std::string)
-3 things it can do:
-    1) adjust height
-    2) Select tap
-    3) convert vibration to voltage
- */
+
+void PowerStrip::Outlet::tripGFCI()
+{
+    currentPower = 0.0;
+    GFCIState = "tripped";
+}
+
+float PowerStrip::Outlet::getCurrentPower() { return currentPower; }
+
+bool PowerStrip::Outlet::isPlugInstalled() { return plugInstalled; }
+
+int PowerStrip::insertPlug(Outlet outlet) 
+{
+    outlet.plugInstalled = true;
+    return outlet.outletNum;
+}
+
+float PowerStrip::getOutletPower()
+{
+    return outlet1.getCurrentPower() + outlet2.getCurrentPower() + 
+            outlet3.getCurrentPower();
+}
+
+void PowerStrip::disablePower()
+{
+    outlet1.GFCIState = "off";
+    outlet2.GFCIState = "off";
+    outlet3.GFCIState = "off";
+}
+
 struct Pickup
 {
-    // Magnet Material 
     std::string magnetMaterial = "alnico";
-    // Number of Coils 
     int numCoils = 2;
-    // type of pickup 
     std::string pickupType = "Humbucker";
-    // distance from strings in cm 
-    float pickupDistance = 3.2f;
-    // brand 
+    double pickupDistance = 3.2;
     std::string brand = "EMG";
     
-    // adjust height in mm
     void adjustHeight(double heightAdjustment = 0.0);
-    // Select tap
     int toggleCenterTap();
-    // convert vibration to voltage
     double vibToVoltage(double vibrationPower = 0.0);
 };
-/*
-Thing 6) Neck
-5 properties:
-    1) Fretboard Material (std::string)
-    2) scale length in cm (double)
-    3) number of frets(int)
-    4) fret width in mm (float)
-    5) nut material (std::string)
-3 things it can do:
-    1) adjust truss rod
-    2) fret note
-    3) clean fretboard
- */
+
+void Pickup::adjustHeight(double heightAdjustment){ pickupDistance -= heightAdjustment; }
+
+int Pickup::toggleCenterTap()
+{
+    if (pickupType == "Humbucker") 
+    {
+        if (numCoils == 2) numCoils = 1;
+        else               numCoils = 2;
+    }
+
+    return numCoils;
+}
+
+double Pickup::vibToVoltage(double vibrationPower)
+{
+    return vibrationPower * pickupDistance;
+}
+
 struct Neck
 {
-    // Fretboard Material 
     std::string fretboardMaterial = "rosewood";
-    // scale length in cm 
     double scaleLength = 60.96;
-    // number of frets(int)
     int numFrets = 24;
-    // fret width in mm (float)
     float fretWidth = 0.94f;
-    // truss rod neck releief in mm
     float neckRelief = 0.25f;
-    //  fretboard soiled
     bool fretboardSoiled = false;
 
-    // adjust truss rod
     float adjustTrussRod(float numTurns = 0.0);
-    // fret note
     int fretNote(int stringNum = 6, int fretNum = 0);
-    // clean fretboard
     void cleanFretboard();
-
 };
-/*
-Thing 7)  Body
-5 properties:
-    1) body type(std::string)
-    2) color (std::string)
-    3) cutout radius in cm (float)
-    4) number of cutouts (int)
-    5) thickness in cm (float)
-3 things it can do:
-    1) select pickup output
-    2) adjust pickup volume
-    3) adjust pickup tone
- */
+
+float Neck::adjustTrussRod(float numTurns)
+{
+    neckRelief *= numTurns * 0.1f;
+    return neckRelief;
+}
+
+int Neck::fretNote(int stringNum, int fretNum)
+{
+    return stringNum + fretNum;
+}
+
+void Neck::cleanFretboard() { fretboardSoiled = false; }
+
 struct Body
 {
-    // body type
     std::string bodyType = "solid";
-    // color 
     std::string color = "sunburst";
-    // cutout radius in cm 
     float cutoutRadius = 2.5f;
-    // number of cutouts 
     int numCutouts = 2;
-    // thickness in cm 
     float thickness = 4.76f;
 
-    // select pickup output
     int selectPickup(int pickup);
-    // adjust pickup volume
     float changeVolume(float newVolume);
-    // adjust pickup tone
     float changeTone(float newTone);
 };
-/*
-Thing 8) Tuners
-5 properties:
-    1) tuner metal (std::string)
-    2) string tension in pounds (double)
-    3) number of tuners(int)
-    4) tuner angle in degrees (double)
-    5) tuner gear ratio (float)
-3 things it can do:
-    1) rotate tuner key
-    2) adjust string tension
-    3) tighten set nut
- */ 
+
+int Body::selectPickup(int pickup) { return pickup; }
+
+float Body::changeVolume(float newVolume) { return newVolume; }
+
+float Body::changeTone(float newTone){ return newTone; }
+
 struct Tuners
 {
-    // tuner metal 
     std::string metal = "Steel";
-    // adjustment key orientation 
     double stringTension = 11.8;
-    // number of tuners
     int numTuners = 6;
-    // tuner angle in degrees
     double degree = 1.75;
-    // tuner gear ratio 
-    float gearRatio = 50.0;
+    double gearRatio = 50.0;
 
-    // rotate tuner key
-    void rotateKey(int keyNum = 1, float numTurns = 0.f);
-    // adjust string tension
+    void rotateKey(int keyNum = 1, double numTurns = 0.0);
     void changeStringTension(int keyNum, int tunedNote);
-    // get number of installed strings
     int getNumInstalledStrings();
     
 };
-/*
-Thing 9) Bridge
-5 properties:
-    1) type of bridge(std::string)
-    2) number of string poles (int)
-    3) length adjustment screw setting in mm (double)
-    4) type of tremolo (std::string)
-    5) floating bridge tightness setting (std::string)
-3 things it can do:
-    1) adjust string length
-    2) move whammy bar
-    3) adjust bridge height
- */
+
+void Tuners::rotateKey(int keyNum, double numTurns) 
+{
+    degree += keyNum* numTurns / gearRatio * 360.0;
+}
+
+void Tuners::changeStringTension(int keyNum, int tunedNote)
+{
+    stringTension += keyNum * tunedNote * 0.01;
+}
+
+int Tuners::getNumInstalledStrings() { return numTuners; }
+
 struct Bridge
 {
-    // type of bridge
     std::string type = "floating";
-    // number of string poles 
     int numStrings = 6;
-    // length adjustment screw setting in mm 
     double screwSetting = 0.5;
-    // type of tremolo 
     std::string tremoloType = "strat";
-    // floating bridge tension (std::string)
     std::string tension = "high";
 
-
-    // adjust string length
     void adjustScrewSetting(double screwAdjustment);
-    // move whammy bar
     void rotateWhammy(std::string direction);
-    // adjust bridge height
     void changeHeight(double heightAdjustment);
 };
-/*
-Thing 10) Electric Guitar
-5 properties:
-    1) Pickups
-    2) Neck
-    3) Body
-    4) Tuners
-    5) Bridge
-3 things it can do:
-    1) play a chord
-    2) generate electrical output
-    3) tune strings
- */
+
+void Bridge::adjustScrewSetting(double screwAdjustment) { screwSetting += screwAdjustment; }
+
+void Bridge::rotateWhammy(std::string direction) 
+{
+    if (direction == "pull") tension = "high";
+    else                     tension = "low";
+}
+
+void Bridge::changeHeight(double heightAdjustment) { screwSetting += heightAdjustment; }
+
 struct ElectricGuitar
 {
-    // Pickups
     Pickup pickup;
-    // Neck
     Neck neck;
-    // Body
     Body body;
-    // Tuners
     Tuners tuners;
-    // Bridge
     Bridge bridge;
 
-    // play a chord
-    void playChord(Neck neckA, int chord = 62, int position = 2);
-    // generate electrical output
+    void playChord(Neck neckA, int chord = 0, int position = 2);
     double generateVoltage(double strumStrength);
-    // Tune Strings
     void tuneStrings(Tuners tunersA);
 };
+
+void ElectricGuitar::playChord(Neck neckA, int chord, int position)
+{
+    neckA.fretNote(6, position + chord);
+    neckA.fretNote(5, position + chord + 4);
+    neckA.fretNote(4, position + chord + 7);
+    neckA.fretNote(3, position + chord + 12);
+    neckA.fretNote(2, position + chord  + 16);
+    neckA.fretNote(1, position + chord + 19);
+}
+double ElectricGuitar::generateVoltage(double strumStrength)
+{
+    return strumStrength * 0.053;
+}
+
+void ElectricGuitar::tuneStrings(Tuners tunersA)
+{
+    tunersA.changeStringTension(0,54);
+}
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
