@@ -121,7 +121,7 @@ struct Person
         int stepLength = 1;
         int numSteps = 0;
 
-        int stepSize() { return stepLength;}
+        int stepSize() { return stepLength; }
         int stepForward()
         { 
             numSteps ++;
@@ -136,7 +136,7 @@ struct Person
 
     void run(bool startWithLeftFoot)
     {
-        if ( startWithLeftFoot) 
+        if (startWithLeftFoot) 
         {
             distanceTraveled += leftFoot.stepForward() + rightFoot.stepForward();
         }
@@ -244,7 +244,7 @@ struct GuitarAmp
 
         void changeGain(double gainAdjustment);
         void enableAmpStandby();
-        int selectImpedance( int impedance = 8) ;
+        int selectImpedance(int impedance = 8) ;
     };
 
 
@@ -253,9 +253,11 @@ struct GuitarAmp
     int switchChannel(int currentChannel, int newChannel = 0);
 };
 
-void GuitarAmp::PowerAmp::changeGain(double gainAdjustment) {gain *= gainAdjustment;}
-void GuitarAmp::PowerAmp::enableAmpStandby() { powerState = "standby";}
-int GuitarAmp::PowerAmp::selectImpedance( int impedance) 
+void GuitarAmp::PowerAmp::changeGain(double gainAdjustment) { gain *= gainAdjustment; }
+
+void GuitarAmp::PowerAmp::enableAmpStandby() { powerState = "standby"; }
+
+int GuitarAmp::PowerAmp::selectImpedance(int impedance) 
 { 
     outputImpedance = impedance;
     return impedance;
@@ -309,12 +311,14 @@ struct PowerStrip
 };
 
 void PowerStrip::Outlet::tripGFCI()
-        {
-            currentPower = 0.0;
-            GFCIState = "tripped";
-        }
-float PowerStrip::Outlet::getCurrentPower() { return currentPower;}
-bool PowerStrip::Outlet::isPlugInstalled() { return plugInstalled;}
+{
+    currentPower = 0.0;
+    GFCIState = "tripped";
+}
+
+float PowerStrip::Outlet::getCurrentPower() { return currentPower; }
+
+bool PowerStrip::Outlet::isPlugInstalled() { return plugInstalled; }
 
 int PowerStrip::insertPlug(Outlet outlet) 
 {
@@ -348,7 +352,7 @@ struct Pickup
     double vibToVoltage(double vibrationPower = 0.0);
 };
 
-void Pickup::adjustHeight(double heightAdjustment){ pickupDistance -= heightAdjustment;}
+void Pickup::adjustHeight(double heightAdjustment){ pickupDistance -= heightAdjustment; }
 
 int Pickup::toggleCenterTap()
 {
@@ -391,7 +395,7 @@ int Neck::fretNote(int stringNum, int fretNum)
     return stringNum + fretNum;
 }
 
-void Neck::cleanFretboard() { fretboardSoiled = false;}
+void Neck::cleanFretboard() { fretboardSoiled = false; }
 
 struct Body
 {
@@ -406,11 +410,11 @@ struct Body
     float changeTone(float newTone);
 };
 
-int Body::selectPickup(int pickup) { return pickup;}
+int Body::selectPickup(int pickup) { return pickup; }
 
-float Body::changeVolume(float newVolume) { return newVolume;}
+float Body::changeVolume(float newVolume) { return newVolume; }
 
-float Body::changeTone(float newTone){ return newTone;}
+float Body::changeTone(float newTone){ return newTone; }
 
 struct Tuners
 {
@@ -426,17 +430,17 @@ struct Tuners
     
 };
 
-void Tuners::rotateKey(int keyNum , double numTurns) 
+void Tuners::rotateKey(int keyNum, double numTurns) 
 {
-    degree += keyNum*numTurns/gearRatio*360.0;
+    degree += keyNum* numTurns / gearRatio * 360.0;
 }
 
 void Tuners::changeStringTension(int keyNum, int tunedNote)
 {
-    stringTension += keyNum*tunedNote*0.01;
+    stringTension += keyNum * tunedNote * 0.01;
 }
 
-int Tuners::getNumInstalledStrings() {return numTuners;}
+int Tuners::getNumInstalledStrings() { return numTuners; }
 
 struct Bridge
 {
@@ -451,8 +455,7 @@ struct Bridge
     void changeHeight(double heightAdjustment);
 };
 
-void Bridge::adjustScrewSetting(double screwAdjustment) 
-    { screwSetting += screwAdjustment;}
+void Bridge::adjustScrewSetting(double screwAdjustment) { screwSetting += screwAdjustment; }
 
 void Bridge::rotateWhammy(std::string direction) 
 {
@@ -460,7 +463,7 @@ void Bridge::rotateWhammy(std::string direction)
     else                     tension = "low";
 }
 
-void Bridge::changeHeight(double heightAdjustment) { screwSetting += heightAdjustment;}
+void Bridge::changeHeight(double heightAdjustment) { screwSetting += heightAdjustment; }
 
 struct ElectricGuitar
 {
@@ -475,7 +478,7 @@ struct ElectricGuitar
     void tuneStrings(Tuners tunersA);
 };
 
-void ElectricGuitar::playChord(Neck neckA, int chord , int position)
+void ElectricGuitar::playChord(Neck neckA, int chord, int position)
 {
     neckA.fretNote(6, position + chord);
     neckA.fretNote(5, position + chord + 4);
