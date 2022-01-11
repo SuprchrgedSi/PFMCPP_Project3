@@ -80,11 +80,13 @@ struct ComputerMonitor
     std::string brand = "Samsung";
     float redGain = 0.72f;
     
-
+    ComputerMonitor();
     void displayInput(int selectedInput = 1);
     void adjustBrightness(int brightnessAdjustment = 0);
     float changeAspectRatio(int xDim, int yDim);
 };
+
+ComputerMonitor::ComputerMonitor(){ std::cout << "ComputerMonitor" << std::endl; }
 
 void ComputerMonitor::displayInput(int selectedInput)
 {
@@ -100,7 +102,10 @@ float ComputerMonitor::changeAspectRatio(int xDim, int yDim)
 {
     pixelWidth = xDim;
     pixelHeight = yDim;
-    return xDim/yDim;
+
+    float aspectRatio = xDim/yDim;
+    std::cout << "The new aspect ratio is " << aspectRatio << std::endl;
+    return aspectRatio;
 }
 
 struct StandingDesk
@@ -112,21 +117,27 @@ struct StandingDesk
     std::string compositionMaterial = "glass";
     std::string drawerLocation = "in";
 
+    StandingDesk();
     std::string slideDrawer();
     void changeHeight(float heightChange = 1.f);
     float rollDesk(float xDistance = 0.5f, float yDistance = 0.5f);
 };
 
+StandingDesk::StandingDesk() { std::cout << "StandingDesk" << std::endl; }
+
 std::string StandingDesk::slideDrawer()
 { 
-    if (drawerLocation == "in") return "out";
-
-    return "in";
+    if (drawerLocation == "in") { drawerLocation = "out";}
+    else                        { drawerLocation = "in";}
+    
+    std::cout << "The drawer has been slid " << drawerLocation << "." << std::endl;
+    return drawerLocation;
 }
 
 void StandingDesk::changeHeight(float heightChange)
 {
     deskHeight += heightChange;
+    std::cout << "The new desk height is " << deskHeight << " inches." << std::endl;
 }
 
 float StandingDesk::rollDesk(float xDistance , float yDistance)
@@ -144,32 +155,48 @@ struct GuitarAmp
 
     struct PowerAmp
     {
-        double gain = 0.0;
+        double gain = 1.0;
         std::string ampTopology = "Class AB";
         int outputImpedance = 8;
         int numOutputs = 1;
         std::string powerState = "standby";
 
+        PowerAmp();
         void changeGain(double gainAdjustment);
         void enableAmpStandby();
         int selectImpedance(int impedance = 8) ;
     };
 
-
+    GuitarAmp();
     double amplifyGuitar(double inputVoltage = 0.0, double ampGain = 0.0);
     double adjustReverbAmount(double reverbGain = 1.0);
     int switchChannel(int currentChannel, int newChannel = 0);
 };
 
-void GuitarAmp::PowerAmp::changeGain(double gainAdjustment) { gain *= gainAdjustment; }
+GuitarAmp::PowerAmp::PowerAmp(){ std::cout << "PowerAmp" << std::endl; }
 
-void GuitarAmp::PowerAmp::enableAmpStandby() { powerState = "standby"; }
+void GuitarAmp::PowerAmp::changeGain(double gainAdjustment) 
+{ 
+    gain *= gainAdjustment; 
+    std::cout << "The new power amp gain is " << gain << "." << std::endl;
+}
+
+void GuitarAmp::PowerAmp::enableAmpStandby() 
+{ 
+    std::cout << "The power amp is now in standby." << std::endl;
+    powerState = "standby"; }
 
 int GuitarAmp::PowerAmp::selectImpedance(int impedance) 
 { 
-    outputImpedance = impedance;
+    if (impedance != outputImpedance)
+    {
+        std::cout << "The user has selected an impedance of " << impedance << "." << std::endl;
+        outputImpedance = impedance;
+    }
     return impedance;
 }
+
+GuitarAmp::GuitarAmp() {std::cout << "GuitarAmp" << std::endl; }
 
 double GuitarAmp::amplifyGuitar(double inputVoltage, double ampGain) 
 { 
@@ -184,7 +211,11 @@ double GuitarAmp::adjustReverbAmount(double reverbGain)
 
 int GuitarAmp::switchChannel(int currentChannel, int newChannel)
 {
-    if (currentChannel == newChannel) return currentChannel;
+    if (currentChannel == newChannel) 
+    {
+        std::cout << "The amp is now in channel " << newChannel << "." << std::endl;
+        return currentChannel;
+    }
 
     return newChannel;
 }
@@ -199,11 +230,12 @@ struct PowerStrip
     struct Outlet
     {
         int outletNum = 1;
-        float currentPower = 0.0;
+        float currentPower = 3.1f;
         std::string GFCIState = "normal";
         std::string connectorFormat = "US";
         bool plugInstalled = false;
 
+        Outlet();
         void tripGFCI();
         float getCurrentPower();
         bool isPlugInstalled();
@@ -213,35 +245,63 @@ struct PowerStrip
     Outlet outlet2;
     Outlet outlet3;
 
+    PowerStrip();
     int insertPlug(Outlet outlet);
-    float getOutletPower();
+    float getPowerStripPower();
     void disablePower();
 };
 
+PowerStrip::Outlet::Outlet() { std::cout << "Outlet" << std::endl; }
+
 void PowerStrip::Outlet::tripGFCI()
 {
+    std::cout << "Outlet " << outletNum << " has tripped." << std::endl;
     currentPower = 0.0;
     GFCIState = "tripped";
 }
 
-float PowerStrip::Outlet::getCurrentPower() { return currentPower; }
+float PowerStrip::Outlet::getCurrentPower() 
+{
+    std::cout << "Outlet " << outletNum << " is supplying " << currentPower << " watts of power" << std::endl;
+    return currentPower; 
+}
 
-bool PowerStrip::Outlet::isPlugInstalled() { return plugInstalled; }
+bool PowerStrip::Outlet::isPlugInstalled() 
+{ 
+    if (plugInstalled) { std::cout << "Outlet " << outletNum << " has a plug installed. " << std::endl; }
+    else               { std::cout << "Outlet " << outletNum << " does not have a plug installed. " << std::endl; }
+    
+    return plugInstalled; 
+}
+
+PowerStrip::PowerStrip() 
+{
+    std::cout << "PowerStrip" << std::endl; 
+    outlet2.outletNum = 2;    
+    outlet3.outletNum = 3;
+}
 
 int PowerStrip::insertPlug(Outlet outlet) 
 {
-    outlet.plugInstalled = true;
+    std::cout << "Outlet " << outlet.outletNum << " now has a plug installed. " << std::endl;
+    if (outlet1.outletNum == outlet.outletNum) {outlet1.plugInstalled = true;}
+    if (outlet2.outletNum == outlet.outletNum) {outlet2.plugInstalled = true;}
+    if (outlet3.outletNum == outlet.outletNum) {outlet3.plugInstalled = true;}
     return outlet.outletNum;
 }
 
-float PowerStrip::getOutletPower()
+float PowerStrip::getPowerStripPower()
 {
-    return outlet1.getCurrentPower() + outlet2.getCurrentPower() + 
-            outlet3.getCurrentPower();
+    float totalPower = outlet1.getCurrentPower() + outlet2.getCurrentPower() + outlet3.getCurrentPower();
+
+    std::cout << "The power strip is supplying " << totalPower << "" << " watts of power" << std::endl;
+
+    return totalPower;
 }
 
 void PowerStrip::disablePower()
 {
+    std::cout << "The power strip is now disabled." << std::endl;
     outlet1.GFCIState = "off";
     outlet2.GFCIState = "off";
     outlet3.GFCIState = "off";
@@ -255,20 +315,36 @@ struct Pickup
     double pickupDistance = 3.2;
     std::string brand = "EMG";
     
+    Pickup();
     void adjustHeight(double heightAdjustment = 0.0);
     int toggleCenterTap();
     double vibToVoltage(double vibrationPower = 0.0);
 };
 
-void Pickup::adjustHeight(double heightAdjustment){ pickupDistance -= heightAdjustment; }
+Pickup::Pickup() {std::cout << "Pickup" << std::endl; }
+
+void Pickup::adjustHeight(double heightAdjustment)
+{ 
+    pickupDistance -= heightAdjustment; 
+    std::cout << "The pickups are now " << pickupDistance << " from the strings." << std::endl;
+}
 
 int Pickup::toggleCenterTap()
 {
     if (pickupType == "Humbucker") 
     {
-        if (numCoils == 2) numCoils = 1;
-        else               numCoils = 2;
+        if (numCoils == 2) 
+        {
+            std::cout << "The pickup is now center tapped." <<std::endl;
+            numCoils = 1;
+        }
+        else
+        {
+            std::cout << "The pickup is not center tapped." <<std::endl;
+            numCoils = 2;
+        }
     }
+    else {std::cout << "Single coil pickups do not have a center tap." << std::endl;}
 
     return numCoils;
 }
@@ -287,10 +363,13 @@ struct Neck
     float neckRelief = 0.25f;
     bool fretboardSoiled = false;
 
+    Neck();
     float adjustTrussRod(float numTurns = 0.0);
     int fretNote(int stringNum = 6, int fretNum = 0);
     void cleanFretboard();
 };
+
+Neck::Neck() { std::cout << "Neck" << std::endl; }
 
 float Neck::adjustTrussRod(float numTurns)
 {
@@ -303,7 +382,10 @@ int Neck::fretNote(int stringNum, int fretNum)
     return stringNum + fretNum;
 }
 
-void Neck::cleanFretboard() { fretboardSoiled = false; }
+void Neck::cleanFretboard() 
+{ 
+    std::cout << "The neck is now clean." <<std::endl;
+    fretboardSoiled = false; }
 
 struct Body
 {
@@ -313,16 +395,31 @@ struct Body
     int numCutouts = 2;
     float thickness = 4.76f;
 
+    Body();
     int selectPickup(int pickup);
     float changeVolume(float newVolume);
     float changeTone(float newTone);
 };
 
-int Body::selectPickup(int pickup) { return pickup; }
+Body::Body() { std::cout << "Body" << std::endl; }
 
-float Body::changeVolume(float newVolume) { return newVolume; }
+int Body::selectPickup(int pickup) 
+{ 
+    std::cout << "Pickup " << pickup << " is now selected." <<std::endl;
+    return pickup; 
+}
 
-float Body::changeTone(float newTone){ return newTone; }
+float Body::changeVolume(float newVolume) 
+{ 
+    std::cout << "The volume knob is now set at " << newVolume << "." << std::endl;
+    return newVolume; 
+}
+
+float Body::changeTone(float newTone)
+{ 
+    std::cout << "The tone knob is now set at " << newTone << "." << std::endl;    
+    return newTone; 
+}
 
 struct Tuners
 {
@@ -332,15 +429,19 @@ struct Tuners
     double degree = 1.75;
     double gearRatio = 50.0;
 
+    Tuners();
     void rotateKey(int keyNum = 1, double numTurns = 0.0);
     void changeStringTension(int keyNum, int tunedNote);
     int getNumInstalledStrings();
     
 };
 
+Tuners::Tuners() { std::cout << "Tuners" << std::endl; }
+
 void Tuners::rotateKey(int keyNum, double numTurns) 
 {
     degree += keyNum* numTurns / gearRatio * 360.0;
+    std::cout << "Tuner " << keyNum << " is now at " << degree << " degrees." <<std::endl;
 }
 
 void Tuners::changeStringTension(int keyNum, int tunedNote)
@@ -348,7 +449,11 @@ void Tuners::changeStringTension(int keyNum, int tunedNote)
     stringTension += keyNum * tunedNote * 0.01;
 }
 
-int Tuners::getNumInstalledStrings() { return numTuners; }
+int Tuners::getNumInstalledStrings() 
+{ 
+    std::cout << "The guitar has " << numTuners << " tuners." << std::endl; 
+    return numTuners; 
+}
 
 struct Bridge
 {
@@ -358,17 +463,32 @@ struct Bridge
     std::string tremoloType = "strat";
     std::string tension = "high";
 
+    Bridge();
     void adjustScrewSetting(double screwAdjustment);
     void rotateWhammy(std::string direction);
     void changeHeight(double heightAdjustment);
 };
 
-void Bridge::adjustScrewSetting(double screwAdjustment) { screwSetting += screwAdjustment; }
+Bridge::Bridge() { std::cout << "Bridge" << std::endl; }
+
+void Bridge::adjustScrewSetting(double screwAdjustment) 
+{ 
+    screwSetting += screwAdjustment; 
+    std::cout << "The bridge screw is now at " << screwSetting << " mm." << std::endl;
+}
 
 void Bridge::rotateWhammy(std::string direction) 
 {
-    if (direction == "pull") tension = "high";
-    else                     tension = "low";
+    if (direction == "pull") 
+    {
+        std::cout <<  "The whammy bar was pulled up." << std::endl;
+        tension = "high";
+    }
+    else
+    {
+        std::cout <<  "The whammy bar was pushed down." << std::endl;
+        tension = "low";
+    }   
 }
 
 void Bridge::changeHeight(double heightAdjustment) { screwSetting += heightAdjustment; }
@@ -381,13 +501,17 @@ struct ElectricGuitar
     Tuners tuners;
     Bridge bridge;
 
+    ElectricGuitar();
     void playChord(Neck neckA, int chord = 0, int position = 2);
     double generateVoltage(double strumStrength);
     void tuneStrings(Tuners tunersA);
 };
 
+ElectricGuitar::ElectricGuitar() { std::cout << "ElectricGuitar" << std::endl; }
+
 void ElectricGuitar::playChord(Neck neckA, int chord, int position)
 {
+    std::cout << "The guitar plays chord " << chord << "." << std::endl;
     neckA.fretNote(6, position + chord);
     neckA.fretNote(5, position + chord + 4);
     neckA.fretNote(4, position + chord + 7);
@@ -402,6 +526,7 @@ double ElectricGuitar::generateVoltage(double strumStrength)
 
 void ElectricGuitar::tuneStrings(Tuners tunersA)
 {
+    std::cout << "The guitar is now tuned." << std::endl;
     tunersA.changeStringTension(0,54);
 }
 
@@ -424,6 +549,25 @@ int main()
 {
     Example::main();
     
+    StandingDesk standingDesk;
+    PowerStrip powerStrip;
+
+    std::cout << "The desk drawer is currently " << standingDesk.drawerLocation << "." << std::endl;
+    standingDesk.slideDrawer();
+    standingDesk.changeHeight(5.1f);
+    std::cout << "The desk rolled " << standingDesk.rollDesk(1.5f, 3.7f) << " feet." << std::endl;
+
+    powerStrip.outlet1.tripGFCI();
+    powerStrip.outlet2.currentPower = 1.3f;
+    powerStrip.insertPlug(powerStrip.outlet3);
+
+    if (powerStrip.outlet3.isPlugInstalled())
+    {
+        std::cout << "After running insertPlug function, the isPlugInstalled function verifies plug is installed." << std::endl;
+    }
+
+    powerStrip.getPowerStripPower();
+    powerStrip.disablePower();
     
     std::cout << "good to go!" << std::endl;
 }
