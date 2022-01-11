@@ -104,6 +104,7 @@ std::string StandingDesk::slideDrawer()
 
 void StandingDesk::changeHeight(float heightChange)
 {
+    std::cout << "The current desk height is " << deskHeight << " inches." << std::endl;
     deskHeight += heightChange;
     std::cout << "The new desk height is " << deskHeight << " inches." << std::endl;
 }
