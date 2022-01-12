@@ -42,9 +42,9 @@ int main()
 struct ComputerMonitor
 {
     int screenBrightness = 50;
-    int pixelWidth = 1920;
-    int pixelHeight = 1080;
-    int numInputs = 5;
+    int pixelWidth;
+    int pixelHeight;
+    int numInputs;
     std::string brand = "Samsung";
     float redGain = 0.72f;
     
@@ -54,7 +54,11 @@ struct ComputerMonitor
     float changeAspectRatio(int xDim, int yDim);
 };
 
-ComputerMonitor::ComputerMonitor(){ std::cout << "ComputerMonitor" << std::endl; }
+ComputerMonitor::ComputerMonitor() :
+pixelWidth(1920), 
+pixelHeight(1080), 
+numInputs(5)
+{ std::cout << "ComputerMonitor" << std::endl; }
 
 void ComputerMonitor::displayInput(int selectedInput)
 {
@@ -78,12 +82,12 @@ float ComputerMonitor::changeAspectRatio(int xDim, int yDim)
 
 struct StandingDesk
 {
-    float unladenWeight = 10.f;
-    float deskHeight = 36.f;
+    float unladenWeight;
+    float deskHeight;
     double maxSupportedWeight = 276.3;
     double width = 48.0;
     std::string compositionMaterial = "glass";
-    std::string drawerLocation = "in";
+    std::string drawerLocation;
 
     StandingDesk();
     std::string slideDrawer();
@@ -91,7 +95,11 @@ struct StandingDesk
     float rollDesk(float xDistance = 0.5f, float yDistance = 0.5f);
 };
 
-StandingDesk::StandingDesk() { std::cout << "StandingDesk" << std::endl; }
+StandingDesk::StandingDesk() :
+unladenWeight(10.5f),
+deskHeight(36.f),
+drawerLocation("in")
+{ std::cout << "StandingDesk" << std::endl; }
 
 std::string StandingDesk::slideDrawer()
 { 
@@ -116,19 +124,19 @@ float StandingDesk::rollDesk(float xDistance , float yDistance)
 
 struct GuitarAmp
 {
-    double preampGain = 0.25;
-    int numChannels = 2;
-    float maxOutPower = 100.f;
+    double preampGain;
+    int numChannels;
+    float maxOutPower;
     double trebleGain = 0.5;
-    double reverbLevel = 0.25;
+    double reverbLevel;
 
     struct PowerAmp
     {
-        double gain = 1.0;
+        double gain;
         std::string ampTopology = "Class AB";
-        int outputImpedance = 8;
+        int outputImpedance;
         int numOutputs = 1;
-        std::string powerState = "standby";
+        std::string powerState;
 
         PowerAmp();
         void changeGain(double gainAdjustment);
@@ -142,7 +150,11 @@ struct GuitarAmp
     int switchChannel(int currentChannel, int newChannel = 0);
 };
 
-GuitarAmp::PowerAmp::PowerAmp(){ std::cout << "PowerAmp" << std::endl; }
+GuitarAmp::PowerAmp::PowerAmp() :
+gain(1.0),
+outputImpedance(8),
+powerState("off")
+{ std::cout << "PowerAmp" << std::endl; }
 
 void GuitarAmp::PowerAmp::changeGain(double gainAdjustment) 
 { 
@@ -165,7 +177,12 @@ int GuitarAmp::PowerAmp::selectImpedance(int impedance)
     return impedance;
 }
 
-GuitarAmp::GuitarAmp() {std::cout << "GuitarAmp" << std::endl; }
+GuitarAmp::GuitarAmp() : 
+preampGain(0.25),
+numChannels(2),
+maxOutPower(100.f),
+reverbLevel(0.25)
+{std::cout << "GuitarAmp" << std::endl; }
 
 double GuitarAmp::amplifyGuitar(double inputVoltage, double ampGain) 
 { 
@@ -191,18 +208,18 @@ int GuitarAmp::switchChannel(int currentChannel, int newChannel)
 
 struct PowerStrip
 {
-    int numOutlets = 3;
-    float maxSurgeProtection = 2400.0f;
+    int numOutlets;
+    float maxSurgeProtection;
     int wireGauge = 18;
-    int numPopulatedOutlets = 2;
+    int numPopulatedOutlets;
 
     struct Outlet
     {
-        int outletNum = 1;
+        int outletNum;
         float currentPower = 3.1f;
         std::string GFCIState = "normal";
         std::string connectorFormat = "US";
-        bool plugInstalled = false;
+        bool plugInstalled;
 
         Outlet();
         void tripGFCI();
@@ -220,7 +237,10 @@ struct PowerStrip
     void disablePower();
 };
 
-PowerStrip::Outlet::Outlet() { std::cout << "Outlet" << std::endl; }
+PowerStrip::Outlet::Outlet() : 
+outletNum(1),
+plugInstalled(false)
+{ std::cout << "Outlet" << std::endl; }
 
 void PowerStrip::Outlet::tripGFCI()
 {
@@ -243,7 +263,10 @@ bool PowerStrip::Outlet::isPlugInstalled()
     return plugInstalled; 
 }
 
-PowerStrip::PowerStrip() 
+PowerStrip::PowerStrip() : 
+numOutlets(3),
+maxSurgeProtection(2400.f),
+numPopulatedOutlets(0)
 {
     std::cout << "PowerStrip" << std::endl; 
     outlet2.outletNum = 2;    
@@ -279,8 +302,8 @@ void PowerStrip::disablePower()
 struct Pickup
 {
     std::string magnetMaterial = "alnico";
-    int numCoils = 2;
-    std::string pickupType = "Humbucker";
+    int numCoils;
+    std::string pickupType;
     double pickupDistance = 3.2;
     std::string brand = "EMG";
     
@@ -290,7 +313,10 @@ struct Pickup
     double vibToVoltage(double vibrationPower = 0.0);
 };
 
-Pickup::Pickup() {std::cout << "Pickup" << std::endl; }
+Pickup::Pickup() : 
+numCoils(2),
+pickupType("Humbucker")
+{std::cout << "Pickup" << std::endl; }
 
 void Pickup::adjustHeight(double heightAdjustment)
 { 
@@ -325,9 +351,9 @@ double Pickup::vibToVoltage(double vibrationPower)
 
 struct Neck
 {
-    std::string fretboardMaterial = "rosewood";
+    std::string fretboardMaterial;
     double scaleLength = 60.96;
-    int numFrets = 24;
+    int numFrets;
     float fretWidth = 0.94f;
     float neckRelief = 0.25f;
     bool fretboardSoiled = false;
@@ -338,7 +364,10 @@ struct Neck
     void cleanFretboard();
 };
 
-Neck::Neck() { std::cout << "Neck" << std::endl; }
+Neck::Neck() : 
+fretboardMaterial("rosewood"),
+numFrets(24)
+{ std::cout << "Neck" << std::endl; }
 
 float Neck::adjustTrussRod(float numTurns)
 {
@@ -359,9 +388,9 @@ void Neck::cleanFretboard()
 struct Body
 {
     std::string bodyType = "solid";
-    std::string color = "sunburst";
+    std::string color;
     float cutoutRadius = 2.5f;
-    int numCutouts = 2;
+    int numCutouts;
     float thickness = 4.76f;
 
     Body();
@@ -370,7 +399,10 @@ struct Body
     float changeTone(float newTone);
 };
 
-Body::Body() { std::cout << "Body" << std::endl; }
+Body::Body() : 
+color("sunburst"),
+numCutouts(2)
+{ std::cout << "Body" << std::endl; }
 
 int Body::selectPickup(int pickup) 
 { 
@@ -395,7 +427,7 @@ struct Tuners
     std::string metal = "Steel";
     double stringTension = 11.8;
     int numTuners = 6;
-    double degree = 1.75;
+    double degree;
     double gearRatio = 50.0;
 
     Tuners();
@@ -405,7 +437,10 @@ struct Tuners
     
 };
 
-Tuners::Tuners() { std::cout << "Tuners" << std::endl; }
+Tuners::Tuners() :
+degree(0.0),
+gearRatio(50.0)
+{ std::cout << "Tuners" << std::endl; }
 
 void Tuners::rotateKey(int keyNum, double numTurns) 
 {
@@ -426,11 +461,11 @@ int Tuners::getNumInstalledStrings()
 
 struct Bridge
 {
-    std::string type = "floating";
-    int numStrings = 6;
-    double screwSetting = 0.5;
-    std::string tremoloType = "strat";
-    std::string tension = "high";
+    std::string type;
+    int numStrings;
+    double screwSetting;
+    std::string tremoloType;
+    std::string tension;
 
     Bridge();
     void adjustScrewSetting(double screwAdjustment);
@@ -438,7 +473,13 @@ struct Bridge
     void changeHeight(double heightAdjustment);
 };
 
-Bridge::Bridge() { std::cout << "Bridge" << std::endl; }
+Bridge::Bridge() : 
+type("floating"),
+numStrings(6),
+screwSetting(0.5),
+tremoloType("strat"),
+tension("normal")
+{ std::cout << "Bridge" << std::endl; }
 
 void Bridge::adjustScrewSetting(double screwAdjustment) 
 { 
