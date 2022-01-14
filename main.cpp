@@ -90,7 +90,9 @@ ComputerMonitor::ComputerMonitor() :
 pixelWidth(1920), 
 pixelHeight(1080), 
 numInputs(5)
-{ std::cout << "ComputerMonitor" << std::endl; }
+{ 
+    std::cout << "ComputerMonitor" << std::endl; 
+}
 
 void ComputerMonitor::displayInput(int selectedInput)
 {
@@ -149,7 +151,9 @@ StandingDesk::StandingDesk() :
 unladenWeight(10.5f),
 deskHeight(36.f),
 drawerLocation("in")
-{ std::cout << "StandingDesk" << std::endl; }
+{ 
+    std::cout << "StandingDesk" << std::endl; 
+}
 
 std::string StandingDesk::slideDrawer()
 { 
@@ -167,9 +171,9 @@ void StandingDesk::changeHeight(float heightChange)
     std::cout << "The new desk height is " << deskHeight << " inches." << std::endl;
 }
 
-double StandingDesk::rollDesk(double xDistance , double yDistance)
+double StandingDesk::rollDesk(double xDistance, double yDistance)
 {
-    return std::pow((std::pow(xDistance, 2) + std::pow(yDistance,2)),0.5);
+    return std::pow((std::pow(xDistance, 2) + std::pow(yDistance, 2)), 0.5);
 }
 
 int StandingDesk::maxOutHeight(float incrementSize)
@@ -228,7 +232,8 @@ gain(1.0),
 outputImpedance(8),
 powerState("off")
 { 
-    std::cout << "PowerAmp" << std::endl; }
+    std::cout << "PowerAmp" << std::endl; 
+}
 
 void GuitarAmp::PowerAmp::changeGain(double gainAdjustment) 
 { 
@@ -273,16 +278,17 @@ numChannels(2),
 maxOutPower(100.f),
 reverbLevel(0.25)
 {
-    std::cout << "GuitarAmp" << std::endl; }
+    std::cout << "GuitarAmp" << std::endl; 
+}
 
 void GuitarAmp::turnOnAmp()
 {
-    this->powerAmp.enableAmpStandby();
+    powerAmp.enableAmpStandby();
 }
 
 double GuitarAmp::amplifyGuitar(double inputVoltage) 
 { 
-    return inputVoltage * preampGain * this->powerAmp.gain;
+    return inputVoltage * preampGain * powerAmp.gain;
 }
 
 double GuitarAmp::adjustReverbAmount(double reverbGain)
@@ -308,7 +314,7 @@ void GuitarAmp::adjustGainForTargetOutput(double inputVoltage, double targetOutp
     {
         powerAmp.gain *= 1.5;
     }
-    std::cout << "Corrected output gain is " << this->powerAmp.gain << "." << std::endl;
+    std::cout << "Corrected output gain is " << powerAmp.gain << "." << std::endl;
 }
 
 struct PowerStrip
@@ -351,8 +357,9 @@ int PowerStrip::Outlet::numOutlets = 0;
 PowerStrip::Outlet::Outlet() : 
 plugInstalled(false)
 { 
-    this->outletNum = ++numOutlets;
-    std::cout << "Outlet" << std::endl; }
+    outletNum = ++numOutlets;
+    std::cout << "Outlet" << std::endl; 
+}
 
 void PowerStrip::Outlet::tripGFCI()
 {
@@ -388,9 +395,9 @@ numPopulatedOutlets(0)
 int PowerStrip::insertPlug(Outlet outlet) 
 {
     std::cout << "Outlet " << outlet.outletNum << " now has a plug installed. " << std::endl;
-    if (outlet1.outletNum == outlet.outletNum) {outlet1.plugInstalled = true;}
-    if (outlet2.outletNum == outlet.outletNum) {outlet2.plugInstalled = true;}
-    if (outlet3.outletNum == outlet.outletNum) {outlet3.plugInstalled = true;}
+    if (outlet1.outletNum == outlet.outletNum) outlet1.plugInstalled = true;
+    if (outlet2.outletNum == outlet.outletNum) outlet2.plugInstalled = true;
+    if (outlet3.outletNum == outlet.outletNum) outlet3.plugInstalled = true;
     return outlet.outletNum;
 }
 
@@ -508,7 +515,9 @@ struct Neck
 Neck::Neck() : 
 fretboardMaterial("rosewood"),
 numFrets(24)
-{ std::cout << "Neck" << std::endl; }
+{ 
+    std::cout << "Neck" << std::endl; 
+}
 
 float Neck::adjustTrussRod(float numTurns)
 {
@@ -524,7 +533,8 @@ int Neck::fretNote(int stringNum, int fretNum)
 void Neck::cleanFretboard() 
 { 
     std::cout << "The neck is now clean." <<std::endl;
-    fretboardSoiled = false; }
+    fretboardSoiled = false; 
+}
 
 void Neck::setNeckRelief(float newRelief)
 {
@@ -556,7 +566,9 @@ struct Body
 Body::Body() : 
 color("sunburst"),
 numCutouts(2)
-{ std::cout << "Body" << std::endl; }
+{ 
+    std::cout << "Body" << std::endl; 
+}
 
 int Body::selectPickup(int pickup) 
 { 
@@ -595,7 +607,9 @@ struct Tuners
 Tuners::Tuners() :
 degree(0.0),
 gearRatio(50.0)
-{ std::cout << "Tuners" << std::endl; }
+{ 
+    std::cout << "Tuners" << std::endl; 
+}
 
 void Tuners::rotateKey(int keyNum, double numTurns) 
 {
@@ -652,7 +666,9 @@ screwSetting(0.5),
 height(6.0),
 tremoloType("strat"),
 tension("normal")
-{ std::cout << "Bridge" << std::endl; }
+{ 
+    std::cout << "Bridge" << std::endl; 
+}
 
 void Bridge::adjustScrewSetting(double screwAdjustment) 
 { 
@@ -723,7 +739,7 @@ double ElectricGuitar::generateVoltage(double strumStrength)
 void ElectricGuitar::tuneStrings()
 {
     std::cout << "The guitar is now tuned." << std::endl;
-    tuners.changeStringTension(0,54);
+    tuners.changeStringTension(0, 54);
 }
 
 /*
@@ -755,7 +771,7 @@ int main()
     
     computerMonitor.displayInput(3);
     computerMonitor.adjustBrightness(5);
-    computerMonitor.changeAspectRatio(1280,720);
+    computerMonitor.changeAspectRatio(1280, 720);
     computerMonitor.detectActiveInputs();
 
     std::cout << "-----------------------" << std::endl;
@@ -788,23 +804,23 @@ int main()
     guitarAmp.amplifyGuitar(0.01);
     guitarAmp.adjustReverbAmount(0.3);
     guitarAmp.switchChannel(2);
-    guitarAmp.adjustGainForTargetOutput(0.01,10.1);
+    guitarAmp.adjustGainForTargetOutput(0.01, 10.1);
 
     std::cout << "-----------------------" << std::endl;
 
-    electricGuitar.playChord(3,3);
+    electricGuitar.playChord(3, 3);
     std::cout << "While plaing, the guitar generats " << electricGuitar.generateVoltage(3.5) << " volts of output." << std::endl;
     electricGuitar.tuneStrings();
     electricGuitar.bridge.adjustScrewSetting(0.5);
     electricGuitar.bridge.changeHeight(0.3);
     electricGuitar.bridge.playVibrato(4);
-    electricGuitar.tuners.rotateKey(1,3);
-    electricGuitar.tuners.changeStringTension(5,6);
+    electricGuitar.tuners.rotateKey(1, 3);
+    electricGuitar.tuners.changeStringTension(5, 6);
     electricGuitar.tuners.getNumInstalledStrings();
-    electricGuitar.tuners.setDegree(1,60.0);
+    electricGuitar.tuners.setDegree(1, 60.0);
 
     electricGuitar.neck.adjustTrussRod(0.5);
-    electricGuitar.neck.fretNote(3,11);
+    electricGuitar.neck.fretNote(3, 11);
     electricGuitar.neck.cleanFretboard();
     electricGuitar.neck.setNeckRelief(0.33f);
     electricGuitar.body.selectPickup(2);
