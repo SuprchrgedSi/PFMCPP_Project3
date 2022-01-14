@@ -29,6 +29,7 @@ Create a branch named Part5
  */
 
 #include <iostream>
+#include <cmath>
 namespace Example 
 {
 struct Bar 
@@ -82,6 +83,7 @@ struct ComputerMonitor
     void displayInput(int selectedInput = 1);
     void adjustBrightness(int brightnessAdjustment = 0);
     float changeAspectRatio(int xDim, int yDim);
+    int detectActiveInputs();
 };
 
 ComputerMonitor::ComputerMonitor() :
@@ -110,11 +112,28 @@ float ComputerMonitor::changeAspectRatio(int xDim, int yDim)
     return aspectRatio;
 }
 
+int ComputerMonitor::detectActiveInputs()
+{
+    int numActiveInputs = 0;
+    for(int i = 1; i < this->numInputs; ++i)
+    {
+        // say every even input number has video attached 
+        if (i % 2) 
+        {
+            ++numActiveInputs;
+            std::cout << "Input " << i << " has active video" << std::endl;
+        }
+        else std::cout << "Input " << i << " does not have active video" << std::endl;
+    }
+
+    return numActiveInputs;
+}
 struct StandingDesk
 {
     float unladenWeight;
     float deskHeight;
     double maxSupportedWeight = 276.3;
+    float maxHeight = 48.f;
     double width = 48.0;
     std::string compositionMaterial = "glass";
     std::string drawerLocation;
@@ -122,7 +141,8 @@ struct StandingDesk
     StandingDesk();
     std::string slideDrawer();
     void changeHeight(float heightChange = 1.f);
-    float rollDesk(float xDistance = 0.5f, float yDistance = 0.5f);
+    double rollDesk(double xDistance = 0.5, double yDistance = 0.5);
+    int maxOutHeight(float incrementSize);
 };
 
 StandingDesk::StandingDesk() :
@@ -147,9 +167,26 @@ void StandingDesk::changeHeight(float heightChange)
     std::cout << "The new desk height is " << deskHeight << " inches." << std::endl;
 }
 
-float StandingDesk::rollDesk(float xDistance , float yDistance)
+double StandingDesk::rollDesk(double xDistance , double yDistance)
 {
-    return xDistance + yDistance;
+    return std::pow((std::pow(xDistance, 2) + std::pow(yDistance,2)),0.5);
+}
+
+int StandingDesk::maxOutHeight(float incrementSize)
+{
+    int numSteps = 0;
+    while (deskHeight < maxHeight)
+    {
+        if (maxHeight - deskHeight <= incrementSize){
+            deskHeight = maxHeight;
+            std:: cout << "Increased desk height by " << maxHeight - deskHeight << " inches.  Desk is now at max height of " << maxHeight  << " inches." << std::endl;
+            ++numSteps;
+            break;
+        }
+        std:: cout << "Increased desk height by " << incrementSize << " inches.  New height is " << (deskHeight += incrementSize) << " inches." << std:: endl;
+        ++numSteps;
+    }
+    return numSteps;
 }
 
 struct GuitarAmp
@@ -171,20 +208,27 @@ struct GuitarAmp
         PowerAmp();
         void changeGain(double gainAdjustment);
         void enableAmpStandby();
-        int selectImpedance(int impedance = 8) ;
+        int selectImpedance(int impedance = 8);
+        void turnOnStandby();
+        bool waitUntilWarm(double targetTemp);
     };
 
+    PowerAmp powerAmp;
+
     GuitarAmp();
-    double amplifyGuitar(double inputVoltage = 0.0, double ampGain = 0.0);
+    void turnOnAmp();
+    double amplifyGuitar(double inputVoltage = 0.0);
     double adjustReverbAmount(double reverbGain = 1.0);
     int switchChannel(int currentChannel, int newChannel = 0);
+    void adjustGainForTargetOutput(double inputVoltage = 0.0, double targetOutput = 0.0);
 };
 
 GuitarAmp::PowerAmp::PowerAmp() :
 gain(1.0),
 outputImpedance(8),
 powerState("off")
-{ std::cout << "PowerAmp" << std::endl; }
+{ 
+    std::cout << "PowerAmp" << std::endl; }
 
 void GuitarAmp::PowerAmp::changeGain(double gainAdjustment) 
 { 
@@ -195,7 +239,11 @@ void GuitarAmp::PowerAmp::changeGain(double gainAdjustment)
 void GuitarAmp::PowerAmp::enableAmpStandby() 
 { 
     std::cout << "The power amp is now in standby." << std::endl;
-    powerState = "standby"; }
+    powerState = "standby"; 
+    
+    if (waitUntilWarm(155.2)) std::cout << "The amp is ready for full power." << std::endl;
+
+}
 
 int GuitarAmp::PowerAmp::selectImpedance(int impedance) 
 { 
@@ -207,16 +255,34 @@ int GuitarAmp::PowerAmp::selectImpedance(int impedance)
     return impedance;
 }
 
+bool GuitarAmp::PowerAmp::waitUntilWarm(double targetTemp)
+{
+    double currentTemp = 72;
+    while (currentTemp < targetTemp)
+    {
+        std::cout << "Amp temp is " << currentTemp << ". Checking again in 10 seconds." << std::endl;
+        currentTemp += 25.3; 
+    }
+    return true;
+}
+
+
 GuitarAmp::GuitarAmp() : 
 preampGain(0.25),
 numChannels(2),
 maxOutPower(100.f),
 reverbLevel(0.25)
-{std::cout << "GuitarAmp" << std::endl; }
+{
+    std::cout << "GuitarAmp" << std::endl; }
 
-double GuitarAmp::amplifyGuitar(double inputVoltage, double ampGain) 
+void GuitarAmp::turnOnAmp()
+{
+    this->powerAmp.enableAmpStandby();
+}
+
+double GuitarAmp::amplifyGuitar(double inputVoltage) 
 { 
-    return inputVoltage * ampGain;
+    return inputVoltage * preampGain * this->powerAmp.gain;
 }
 
 double GuitarAmp::adjustReverbAmount(double reverbGain)
@@ -236,6 +302,14 @@ int GuitarAmp::switchChannel(int currentChannel, int newChannel)
     return newChannel;
 }
 
+void GuitarAmp::adjustGainForTargetOutput(double inputVoltage, double targetOutput)
+{
+    while (this->amplifyGuitar(inputVoltage) <  targetOutput){
+        this->powerAmp.gain *= 1.5;
+    }
+    std::cout << "Corrected output gain is " << this->powerAmp.gain << "." << std::endl;
+}
+
 struct PowerStrip
 {
     int numOutlets;
@@ -245,6 +319,8 @@ struct PowerStrip
 
     struct Outlet
     {
+        static int numOutlets;
+        
         int outletNum;
         float currentPower = 3.1f;
         std::string GFCIState = "normal";
@@ -264,13 +340,18 @@ struct PowerStrip
     PowerStrip();
     int insertPlug(Outlet outlet);
     float getPowerStripPower();
+    void enablePower();
     void disablePower();
+    void cyclePower(int numCycles);
 };
 
+int PowerStrip::Outlet::numOutlets = 0;
+
 PowerStrip::Outlet::Outlet() : 
-outletNum(1),
 plugInstalled(false)
-{ std::cout << "Outlet" << std::endl; }
+{ 
+    this->outletNum = ++numOutlets;
+    std::cout << "Outlet" << std::endl; }
 
 void PowerStrip::Outlet::tripGFCI()
 {
@@ -327,6 +408,27 @@ void PowerStrip::disablePower()
     outlet1.GFCIState = "off";
     outlet2.GFCIState = "off";
     outlet3.GFCIState = "off";
+}
+
+void PowerStrip::enablePower()
+{
+    std::cout << "The power strip is now enabled." << std::endl;
+    outlet1.GFCIState = "on";
+    outlet2.GFCIState = "on";
+    outlet3.GFCIState = "on";
+}
+
+void PowerStrip::cyclePower(int numCycles)
+{
+    for (int i = 0; i < numCycles; ++i){
+        if (outlet1.GFCIState == "off") enablePower();
+        else
+        {
+            disablePower();
+            enablePower();
+        }
+    }
+    
 }
 
 struct Pickup
@@ -392,6 +494,7 @@ struct Neck
     float adjustTrussRod(float numTurns = 0.0);
     int fretNote(int stringNum = 6, int fretNum = 0);
     void cleanFretboard();
+    void setNeckRelief(float newRelief);
 };
 
 Neck::Neck() : 
@@ -401,7 +504,7 @@ numFrets(24)
 
 float Neck::adjustTrussRod(float numTurns)
 {
-    neckRelief *= numTurns * 0.1f;
+    neckRelief += numTurns * 0.05f;
     return neckRelief;
 }
 
@@ -414,6 +517,17 @@ void Neck::cleanFretboard()
 { 
     std::cout << "The neck is now clean." <<std::endl;
     fretboardSoiled = false; }
+
+void Neck::setNeckRelief(float newRelief)
+{
+    while (this->neckRelief < newRelief)
+    {
+        std::cout << "Tightening the truss rod 1 turn " << std::endl;
+        adjustTrussRod(1.f);
+    }
+
+    std::cout << "The neck relief is now at " << this->neckRelief << "." << std::endl;
+}
 
 struct Body
 {
@@ -428,6 +542,8 @@ struct Body
     float changeVolume(float newVolume);
     float changeTone(float newTone);
 };
+
+
 
 Body::Body() : 
 color("sunburst"),
@@ -464,6 +580,7 @@ struct Tuners
     void rotateKey(int keyNum = 1, double numTurns = 0.0);
     void changeStringTension(int keyNum, int tunedNote);
     int getNumInstalledStrings();
+    void setDegree(int keyNum, double targetAngle);
     
 };
 
@@ -474,8 +591,10 @@ gearRatio(50.0)
 
 void Tuners::rotateKey(int keyNum, double numTurns) 
 {
-    degree += keyNum* numTurns / gearRatio * 360.0;
-    std::cout << "Tuner " << keyNum << " is now at " << degree << " degrees." <<std::endl;
+    degree += numTurns / gearRatio * 360.0;
+    if (degree > 360.0) degree -= 360.0;
+    else if (degree < 0.0) degree += 360.0;
+    std::cout << "Tuner " << keyNum << " is now at " << degree << " degrees." << std::endl;
 }
 
 void Tuners::changeStringTension(int keyNum, int tunedNote)
@@ -489,11 +608,21 @@ int Tuners::getNumInstalledStrings()
     return numTuners; 
 }
 
+void Tuners::setDegree(int keyNum, double targetAngle)
+{
+    std::cout << "Tuner " << keyNum << " needs to be at " << targetAngle << " degrees." << std::endl;
+    while (targetAngle > degree)
+    {
+        rotateKey(keyNum, 1);
+    }
+}
+
 struct Bridge
 {
     std::string type;
     int numStrings;
     double screwSetting;
+    double height;
     std::string tremoloType;
     std::string tension;
 
@@ -501,12 +630,14 @@ struct Bridge
     void adjustScrewSetting(double screwAdjustment);
     void rotateWhammy(std::string direction);
     void changeHeight(double heightAdjustment);
+    void playVibrato(int numberOfMoves);
 };
 
 Bridge::Bridge() : 
 type("floating"),
 numStrings(6),
 screwSetting(0.5),
+height(6.0),
 tremoloType("strat"),
 tension("normal")
 { std::cout << "Bridge" << std::endl; }
@@ -531,7 +662,20 @@ void Bridge::rotateWhammy(std::string direction)
     }   
 }
 
-void Bridge::changeHeight(double heightAdjustment) { screwSetting += heightAdjustment; }
+void Bridge::changeHeight(double heightAdjustment) 
+{ 
+    height += heightAdjustment; 
+    std::cout << "The bridge height is now at " << height << " mm." << std::endl;
+}
+
+void Bridge::playVibrato(int numberOfMoves)
+{
+    for(int i = 0; i < numberOfMoves; ++i)
+    {
+        rotateWhammy("push");
+        rotateWhammy("pull");
+    }
+}
 
 struct ElectricGuitar
 {
@@ -542,32 +686,32 @@ struct ElectricGuitar
     Bridge bridge;
 
     ElectricGuitar();
-    void playChord(Neck neckA, int chord = 0, int position = 2);
+    void playChord(int chord = 0, int position = 2);
     double generateVoltage(double strumStrength);
-    void tuneStrings(Tuners tunersA);
+    void tuneStrings();
 };
 
 ElectricGuitar::ElectricGuitar() { std::cout << "ElectricGuitar" << std::endl; }
 
-void ElectricGuitar::playChord(Neck neckA, int chord, int position)
+void ElectricGuitar::playChord(int chord, int position)
 {
     std::cout << "The guitar plays chord " << chord << "." << std::endl;
-    neckA.fretNote(6, position + chord);
-    neckA.fretNote(5, position + chord + 4);
-    neckA.fretNote(4, position + chord + 7);
-    neckA.fretNote(3, position + chord + 12);
-    neckA.fretNote(2, position + chord  + 16);
-    neckA.fretNote(1, position + chord + 19);
+    this->neck.fretNote(6, position + chord);
+    this->neck.fretNote(5, position + chord + 4);
+    this->neck.fretNote(4, position + chord + 7);
+    this->neck.fretNote(3, position + chord + 12);
+    this->neck.fretNote(2, position + chord  + 16);
+    this->neck.fretNote(1, position + chord + 19);
 }
 double ElectricGuitar::generateVoltage(double strumStrength)
 {
     return strumStrength * 0.053;
 }
 
-void ElectricGuitar::tuneStrings(Tuners tunersA)
+void ElectricGuitar::tuneStrings()
 {
     std::cout << "The guitar is now tuned." << std::endl;
-    tunersA.changeStringTension(0,54);
+    this->tuners.changeStringTension(0,54);
 }
 
 /*
@@ -589,14 +733,29 @@ int main()
 {
     Example::main();
     
+    ComputerMonitor computerMonitor;
     StandingDesk standingDesk;
     PowerStrip powerStrip;
+    GuitarAmp guitarAmp;
+    ElectricGuitar electricGuitar;
 
+    std::cout << "-----------------------" << std::endl;
+    
+    computerMonitor.displayInput(3);
+    computerMonitor.adjustBrightness(5);
+    computerMonitor.changeAspectRatio(1280,720);
+    computerMonitor.detectActiveInputs();
+
+    std::cout << "-----------------------" << std::endl;
+    
     std::cout << "The desk drawer is currently " << standingDesk.drawerLocation << "." << std::endl;
     standingDesk.slideDrawer();
     standingDesk.changeHeight(5.1f);
-    std::cout << "The desk rolled " << standingDesk.rollDesk(1.5f, 3.7f) << " feet." << std::endl;
+    std::cout << "The desk rolled " << standingDesk.rollDesk(1.5, 3.7) << " feet." << std::endl;
 
+    std::cout << "-----------------------" << std::endl;
+    
+    powerStrip.enablePower();
     powerStrip.outlet1.tripGFCI();
     powerStrip.outlet2.currentPower = 1.3f;
     powerStrip.insertPlug(powerStrip.outlet3);
@@ -607,7 +766,41 @@ int main()
     }
 
     powerStrip.getPowerStripPower();
-    powerStrip.disablePower();
+    powerStrip.cyclePower(3);
     
+    std::cout << "-----------------------" << std::endl;
+
+    guitarAmp.turnOnAmp();
+    guitarAmp.powerAmp.changeGain(0.5);
+    guitarAmp.powerAmp.selectImpedance(4);
+    guitarAmp.amplifyGuitar(0.01);
+    guitarAmp.adjustReverbAmount(0.3);
+    guitarAmp.switchChannel(2);
+    guitarAmp.adjustGainForTargetOutput(0.01,10.1);
+
+    std::cout << "-----------------------" << std::endl;
+
+    electricGuitar.playChord(3,3);
+    std::cout << "While plaing, the guitar generats " << electricGuitar.generateVoltage(3.5) << " volts of output." << std::endl;
+    electricGuitar.tuneStrings();
+    electricGuitar.bridge.adjustScrewSetting(0.5);
+    electricGuitar.bridge.changeHeight(0.3);
+    electricGuitar.bridge.playVibrato(4);
+    electricGuitar.tuners.rotateKey(1,3);
+    electricGuitar.tuners.changeStringTension(5,6);
+    electricGuitar.tuners.getNumInstalledStrings();
+    electricGuitar.tuners.setDegree(1,60.0);
+
+    electricGuitar.neck.adjustTrussRod(0.5);
+    electricGuitar.neck.fretNote(3,11);
+    electricGuitar.neck.cleanFretboard();
+    electricGuitar.neck.setNeckRelief(0.33f);
+    electricGuitar.body.selectPickup(2);
+    electricGuitar.body.changeVolume(0.5f);
+    electricGuitar.body.changeTone(0.75f);
+    
+
+    std::cout << "-----------------------" << std::endl;
+
     std::cout << "good to go!" << std::endl;
 }
