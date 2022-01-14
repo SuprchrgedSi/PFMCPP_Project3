@@ -115,7 +115,7 @@ float ComputerMonitor::changeAspectRatio(int xDim, int yDim)
 int ComputerMonitor::detectActiveInputs()
 {
     int numActiveInputs = 0;
-    for(int i = 1; i < this->numInputs; ++i)
+    for(int i = 1; i < numInputs; ++i)
     {
         // say every even input number has video attached 
         if (i % 2) 
@@ -304,8 +304,9 @@ int GuitarAmp::switchChannel(int currentChannel, int newChannel)
 
 void GuitarAmp::adjustGainForTargetOutput(double inputVoltage, double targetOutput)
 {
-    while (this->amplifyGuitar(inputVoltage) <  targetOutput){
-        this->powerAmp.gain *= 1.5;
+    while (amplifyGuitar(inputVoltage) <  targetOutput)
+    {
+        powerAmp.gain *= 1.5;
     }
     std::cout << "Corrected output gain is " << this->powerAmp.gain << "." << std::endl;
 }
@@ -420,8 +421,12 @@ void PowerStrip::enablePower()
 
 void PowerStrip::cyclePower(int numCycles)
 {
-    for (int i = 0; i < numCycles; ++i){
-        if (outlet1.GFCIState == "off") enablePower();
+    for (int i = 0; i < numCycles; ++i)
+    {
+        if (outlet1.GFCIState == "off") 
+        {
+            enablePower();
+        }
         else
         {
             disablePower();
@@ -471,7 +476,10 @@ int Pickup::toggleCenterTap()
             numCoils = 2;
         }
     }
-    else {std::cout << "Single coil pickups do not have a center tap." << std::endl;}
+    else 
+    {
+        std::cout << "Single coil pickups do not have a center tap." << std::endl;
+    }
 
     return numCoils;
 }
@@ -520,13 +528,13 @@ void Neck::cleanFretboard()
 
 void Neck::setNeckRelief(float newRelief)
 {
-    while (this->neckRelief < newRelief)
+    while (neckRelief < newRelief)
     {
         std::cout << "Tightening the truss rod 1 turn " << std::endl;
         adjustTrussRod(1.f);
     }
 
-    std::cout << "The neck relief is now at " << this->neckRelief << "." << std::endl;
+    std::cout << "The neck relief is now at " << neckRelief << "." << std::endl;
 }
 
 struct Body
@@ -592,8 +600,12 @@ gearRatio(50.0)
 void Tuners::rotateKey(int keyNum, double numTurns) 
 {
     degree += numTurns / gearRatio * 360.0;
-    if (degree > 360.0) degree -= 360.0;
-    else if (degree < 0.0) degree += 360.0;
+
+    if (degree > 360.0) 
+        degree -= 360.0;
+    else if (degree < 0.0) 
+        degree += 360.0;
+
     std::cout << "Tuner " << keyNum << " is now at " << degree << " degrees." << std::endl;
 }
 
@@ -696,12 +708,12 @@ ElectricGuitar::ElectricGuitar() { std::cout << "ElectricGuitar" << std::endl; }
 void ElectricGuitar::playChord(int chord, int position)
 {
     std::cout << "The guitar plays chord " << chord << "." << std::endl;
-    this->neck.fretNote(6, position + chord);
-    this->neck.fretNote(5, position + chord + 4);
-    this->neck.fretNote(4, position + chord + 7);
-    this->neck.fretNote(3, position + chord + 12);
-    this->neck.fretNote(2, position + chord  + 16);
-    this->neck.fretNote(1, position + chord + 19);
+    neck.fretNote(6, position + chord);
+    neck.fretNote(5, position + chord + 4);
+    neck.fretNote(4, position + chord + 7);
+    neck.fretNote(3, position + chord + 12);
+    neck.fretNote(2, position + chord  + 16);
+    neck.fretNote(1, position + chord + 19);
 }
 double ElectricGuitar::generateVoltage(double strumStrength)
 {
@@ -711,7 +723,7 @@ double ElectricGuitar::generateVoltage(double strumStrength)
 void ElectricGuitar::tuneStrings()
 {
     std::cout << "The guitar is now tuned." << std::endl;
-    this->tuners.changeStringTension(0,54);
+    tuners.changeStringTension(0,54);
 }
 
 /*
